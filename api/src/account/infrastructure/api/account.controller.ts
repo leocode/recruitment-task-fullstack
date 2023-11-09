@@ -1,26 +1,29 @@
-import { Application, Request, Response } from "express";
-import { AccountsService } from "../../application/services/accounts.service";
+import { Application, Request, Response } from 'express';
+import { AccountService } from '../../application/services/account.service';
 
-export class AccountsController {
-    constructor(private readonly accountsService: AccountsService,
-        app: Application) {
-        app.get('/account/:address', this.getAccount.bind(this));
-        //app.get('/accounts', this.getMany.bind(this));
+export class AccountController {
+  constructor(private readonly accountsService: AccountService, app: Application) {
+    app.get('/account', this.getAccountDetails.bind(this));
+    app.post('/account/reset', this.reset.bind(this));
+  }
 
-        app.post('/account/reset', this.reset.bind(this));
+  async getAccountDetails(req: Request, res: Response) {
+    const userId = req.headers['user-id'];
+
+    if (!userId || Array.isArray(userId)) {
+      return res.status(400).json({
+        error: 'UserId has to be specified',
+      });
     }
 
-    // TODO: user details?
-    async getAccount(req: Request, res: Response) {
-        const accountAddress = req.params.address;
-        const account = await this.accountsService.findByAddress(accountAddress);        
+    const account = await this.accountsService.findByAddress(userId);
 
-        res.json(account);
-    }
+    res.json(account ? account.toAttrs() : null);
+  }
 
-    reset(_req: Request, res: Response) {
-        this.accountsService.reset();
+  async reset(_req: Request, res: Response) {
+    const result = await this.accountsService.reset();
 
-        res.json({success: true})
-    }
+    res.json({ success: result });
+  }
 }

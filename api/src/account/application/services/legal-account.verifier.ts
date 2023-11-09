@@ -1,6 +1,6 @@
-import { EventBus } from "@/shared/event-bus";
-import { Account } from "../../public/interfaces/account.interface";
-import { AccountLegalityVerified } from "../events/account-legality-verified.event";
+import { EventBus } from '@/shared/event-bus';
+import { Account } from '../../public/interfaces/account.interface';
+import { AccountLegalityVerified } from '../events/account-legality-verified.event';
 
 export class AccountLegalityVerifier {
   constructor(private readonly eventBus: EventBus) {}

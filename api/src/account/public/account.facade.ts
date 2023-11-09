@@ -1,7 +1,7 @@
-import { AccountLegalityVerifier } from "../application/services/legal-account.verifier";
-import { InMemoryAccountRepository } from "../infrastructure/database/in-memory-account.repository";
+import { AccountLegalityVerifier } from '../application/services/legal-account.verifier';
+import { InMemoryAccountRepository } from '../infrastructure/database/in-memory-account.repository';
 
-import { Account } from "./interfaces/account.interface";
+import { Account } from './interfaces/account.interface';
 
 export class AccountFacade {
   constructor(
@@ -11,6 +11,10 @@ export class AccountFacade {
 
   public async findAccountByAddress(address: string): Promise<Account | null> {
     return await this.accountRepository.findByAddress(address);
+  }
+
+  public async findAccountByOwner(ownerId: string): Promise<Account | null> {
+    return await this.accountRepository.findByOwnerId(ownerId);
   }
 
   public async updateAccount(account: Account): Promise<void> {

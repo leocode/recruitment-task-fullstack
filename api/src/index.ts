@@ -2,62 +2,59 @@ import { TransactionManager } from './transaction/application/services/transacti
 import { AccountLegalityVerifier } from './account/application/services/legal-account.verifier';
 import express, { Application, json } from 'express';
 import cors from 'cors';
-import { CharactersController } from './character/infrastructure/api/characters.controller';
-import { CharactersService } from './character/application/service/characters.service';
-import { InMemoryCharactersRepository } from './character/infrastructure/database/in-memory-characters.repository';
-import { AccountsService } from './account/application/services/accounts.service';
+import 'dotenv/config';
+import { CharacterController } from './character/infrastructure/api/character.controller';
+import { CharacterService } from './character/application/service/character.service';
+import { InMemoryCharacterRepository } from './character/infrastructure/database/in-memory-character.repository';
+import { AccountService } from './account/application/services/account.service';
 import { InMemoryAccountRepository } from './account/infrastructure/database/in-memory-account.repository';
-import { AccountsController } from './account/infrastructure/api/account.controller';
+import { AccountController } from './account/infrastructure/api/account.controller';
 import { AccountFacade } from './account/public/account.facade';
 import { EventBus } from './shared/event-bus';
-import { TransactionsController } from './transaction/infrastructure/api/transaction.controller';
-import { CharactersFacade } from './character/public/characters.facade';
+import { TransactionController } from './transaction/infrastructure/api/transaction.controller';
+import { CharacterFacade } from './character/public/characters.facade';
 import { TransactionExecutor } from './transaction/application/services/transaction-executor';
 
 function setup(app: Application) {
-    // shared
-    const eventBus = new EventBus()
+  // shared
+  const eventBus = new EventBus();
 
-    // accounts
-    const repo = new InMemoryAccountRepository();
-    const legality = new AccountLegalityVerifier(eventBus)
-    const facade = new AccountFacade(repo, legality);
-    const accountsService = new AccountsService(repo);
-    const accountsController = new AccountsController(accountsService, app);
-    
-    // characters
-    const charactersRepository = new InMemoryCharactersRepository();
-    const charactersService = new CharactersService(charactersRepository);
-    const charactersFacade = new CharactersFacade(charactersService);
-    const charactersController = new CharactersController(charactersService, app);
+  // accounts
+  const accountRepository = new InMemoryAccountRepository();
+  const accountLegalityVerifier = new AccountLegalityVerifier(eventBus);
+  const accountFacade = new AccountFacade(accountRepository, accountLegalityVerifier);
+  const accountService = new AccountService(accountRepository);
+  const accountController = new AccountController(accountService, app);
 
-    // transactions    
-    const transactionExecutor = new TransactionExecutor(facade);
-    const transactionManager = new TransactionManager(facade, charactersFacade, transactionExecutor);
-    const transactionsController = new TransactionsController(transactionManager, app);
+  // characters
+  const characterRepository = new InMemoryCharacterRepository();
+  const characterService = new CharacterService(characterRepository);
+  const characterFacade = new CharacterFacade(characterService);
+  const characterController = new CharacterController(characterService, app);
+
+  // transactions
+  const transactionExecutor = new TransactionExecutor(accountFacade);
+  const transactionManager = new TransactionManager(
+    accountFacade,
+    characterFacade,
+    transactionExecutor
+  );
+  const transactionController = new TransactionController(transactionManager, app);
 }
 
-// TODO: auto-restart app after code changes
-// TODO: move tests from original repo
-// TODO: eslint + prettier?
-// TODO: dotenv
-
-// TODO: pin deps in package.json
 async function bootstrap() {
-    const app = express();
+  const app = express();
 
-    // TODO: add /api prefix to routes
-    app.use(cors())
-    app.use(json());
+  app.use(cors());
+  app.use(json());
 
-    const port = process.env.BE_PORT || 3000;
+  const port = process.env.BE_PORT || 3000;
 
-    setup(app);
+  setup(app);
 
-    app.listen(port, () => {
-        console.log(`Server started on port ${port}`);
-    });
-};
+  app.listen(port, () => {
+    console.log(`Server started on port ${port}`);
+  });
+}
 
 bootstrap();
-

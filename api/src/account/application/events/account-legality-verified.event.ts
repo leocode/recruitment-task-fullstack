@@ -1,6 +1,3 @@
 export class AccountLegalityVerified {
-    constructor (
-      public actionId: any,
-      public isLegalAccount: boolean,
-    ) {}
-  }
+  constructor(public actionId: any, public isLegalAccount: boolean) {}
+}

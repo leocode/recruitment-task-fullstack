@@ -1,15 +1,15 @@
-import { Character, Characters } from "../application/interface/character.interface";
-import { GetCharacterParams } from "../application/interface/characters.repository";
-import { CharactersService } from "../application/service/characters.service";
+import { Character } from '../application/interface/character.interface';
+import { GetCharacterParams } from '../application/interface/characters.repository';
+import { CharacterService } from '../application/service/character.service';
 
-export class CharactersFacade {
-    constructor(private readonly charactersService: CharactersService) {}
+export class CharacterFacade {
+  constructor(private readonly charactersService: CharacterService) {}
 
-    public findOne(params: GetCharacterParams): Character | null {
-        return this.charactersService.findOne(params);
-    }
+  public findOne(params: GetCharacterParams): Character | null {
+    return this.charactersService.findOne(params);
+  }
 
-    public findMany(): Characters {
-        return this.charactersService.findMany();
-    }
+  public findMany(): Character[] {
+    return this.charactersService.findMany();
+  }
 }
