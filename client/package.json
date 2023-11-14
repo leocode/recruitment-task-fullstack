@@ -1,9 +1,9 @@
 {
-  "name": "zadanie-rekrutacyjne-frontend",
+  "name": "recruitment-task-fullstack-frontend",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "scripts": {
-    "dev": "vite --port 3001",
+    "start:dev": "vite --port 3001",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
