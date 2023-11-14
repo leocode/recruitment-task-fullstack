@@ -1,0 +1,135 @@
+.select {
+  position: relative;
+}
+
+.wrapper {
+  padding: 2rem;
+}
+
+
+.trigger {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  padding: 0.8rem 1.2rem;
+  border: var(--border-width) solid black;
+  z-index: 2;
+  line-height: 3.2rem;
+  font-size: 1.6rem;
+  background-color: var(--theme-color);
+  cursor: pointer;
+}
+
+.trigger--active::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: var(--border-width);
+  background-color: var(--theme-color);
+  bottom: calc(-1 * var(--border-width));
+}
+
+.arrow {
+  margin-left: 0.6rem;
+}
+
+.searcher {
+  padding: 1.2rem 1.6rem;
+}
+
+.options {
+  width: 300px;
+  border: 1px solid rgba(0, 0, 0, 0.06);;
+  padding: 2rem;
+  position: relative;
+}
+
+.input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  line-height: 2.8rem;
+  padding: 1.2rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 1.4rem;
+  background-color: rgba(0, 0, 0, 0.06);
+  color: rgba(0, 0, 0, 0.87);
+  border: none;
+  outline: none;
+}
+
+.list {
+  list-style: none;
+  margin:0;
+  padding: 0;
+  margin-top: 4.2rem;
+}
+
+.list__item:not(:last-child) {
+  margin-bottom: 0.5rem;
+}
+
+.list__item {
+  font-size: 1.4rem;
+  padding: 1.2rem;
+  transition: all 0.1s ease-in-out;
+  cursor: pointer;
+  position: relative;
+}
+
+.list__item::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 1px;
+  background-color: rgba(0, 0, 0, 0.1);
+  bottom: 0;
+  left: 0;
+}
+
+.list__item:hover {
+  background-color: rgba(0, 0, 0, 0.06);
+  transform: scale(1.02)
+}
+
+.list__item:active {
+  transform: scale(0.99)
+}
+
+.list__item--selected {
+  font-weight: 700;
+  background-color: rgb(229, 246, 253);
+  color: rgb(1, 67, 97);
+}
+
+
+.account {
+  font-size: 1.6rem;
+}
+
+.account-balance {
+
+}
+
+.account-collection {
+
+}
+
+.account-info {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  padding: 0.8rem 1.2rem;
+}
+
+.account-reset-button {
+  border-radius: 50%;
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
