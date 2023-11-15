@@ -4,6 +4,7 @@ import { TransactionRequest } from '../interfaces/transaction.interface';
 import { CharacterFacade } from '../../../character/public/characters.facade';
 
 export interface ProcessTransactionRequestResult {
+  transactionId: string;
   success: boolean;
   message: string;
 }
@@ -43,6 +44,7 @@ export class TransactionManager {
     });
 
     return {
+      transactionId: transaction.id,
       success: isSuccess,
       message: 'Transaction executed successfully',
     };
