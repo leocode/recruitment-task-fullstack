@@ -1,12 +1,12 @@
 import { Application, Request, Response } from 'express';
-import { TransactionManager } from '../../application/services/transaction-manager';
 import { TransactionRequest } from '../../application/interfaces/transaction.interface';
 import { v4 } from 'uuid';
+import { TransactionFacade } from '../../application/services/transaction.facade';
 
 type TransactionRequestBody = Omit<TransactionRequest, 'id' | 'buyerId'>;
 
 export class TransactionController {
-  constructor(private readonly transactionManager: TransactionManager, app: Application) {
+  constructor(private readonly transactionFacade: TransactionFacade, app: Application) {
     app.post('/transaction', this.processTransaction.bind(this));
   }
 
@@ -28,7 +28,7 @@ export class TransactionController {
         });
       }
 
-      const result = await this.transactionManager.processTransactionRequest({
+      const result = await this.transactionFacade.processTransactionRequest({
         ...transactionRequest,
         buyerId: userId,
         id: v4(),

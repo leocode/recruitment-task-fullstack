@@ -14,6 +14,7 @@ import { EventBus } from './shared/event-bus';
 import { TransactionController } from './transaction/infrastructure/api/transaction.controller';
 import { CharacterFacade } from './character/public/characters.facade';
 import { TransactionExecutor } from './transaction/application/services/transaction-executor';
+import { TransactionFacade } from './transaction/application/services/transaction.facade';
 
 function setup(app: Application) {
   // shared
@@ -39,7 +40,8 @@ function setup(app: Application) {
     characterFacade,
     transactionExecutor
   );
-  const transactionController = new TransactionController(transactionManager, app);
+  const transactionFacade = new TransactionFacade(transactionManager);
+  const transactionController = new TransactionController(transactionFacade, app);
 }
 
 async function bootstrap() {

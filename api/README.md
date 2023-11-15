@@ -4,10 +4,6 @@
 
 `yarn install`
 
-## Testing
-
-`yarn test`
-
 ## Start
 
 `yarn start`
